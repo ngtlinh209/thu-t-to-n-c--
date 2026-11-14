@@ -26,18 +26,19 @@ while True:
     if canvas is None:
         canvas=np.zeros((480,680,3))+255
     w_box=680//4
+    # Black 
     cv2.rectangle(frame, (0, 0), (w_box, 80), (0,0,0), cv2.FILLED)
     cv2.putText(frame, "BLACK", (20, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255,255,255), 2)
 
-    # Ô 2: Màu Xanh Dương (BGR: 255, 255, 0)
+    # Yellow 
     cv2.rectangle(frame, (w_box, 0), (2 * w_box, 80), (255, 255, 0), cv2.FILLED)
     cv2.putText(frame, "BLUE", (w_box + 20, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
 
-    # Ô 3: Màu Vàng (BGR: 0, 255, 255)
+    # Cyan 
     cv2.rectangle(frame, (2 * w_box, 0), (3 * w_box, 80), (0, 255, 255), cv2.FILLED)
     cv2.putText(frame, "Yellow", (2 * w_box + 20, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
 
-    # Ô 4: Cục Tẩy (Tô màu xám đại diện cho Tẩy)
+    # Clear 
     cv2.rectangle(frame, (3 * w_box, 0), (680, 80), (200, 200, 200), cv2.FILLED)
     cv2.putText(frame, "CLEAR", (3 * w_box + 10, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 0, 0), 2)
     frame_rgb=cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
@@ -47,10 +48,10 @@ while True:
             mp.drawing.draw_landmarks(frame,i,mp.hands.HAND_CONNECTIONS)
         finger=i.landmark
         index_x,index_y=int(finger[8].x*680),int(finger[8].y*480)
-
+        # Check for index and middle
         if finger[8].y<finger[6].y and finger[12].y>finger[9].y:
             if index_y < 80:
-                    de_que.append(None) # Ngắt nét vẽ cũ khi chạm vào menu
+                    de_que.append(None) 
                     
                     if 0 <= index_x < w_box:
                         draw_color = (0,0,0) 
@@ -66,7 +67,6 @@ while True:
                         de_que.clear()
             else:
                     curr_point = (index_x, index_y, draw_color, brush_thickness)
-                    # Vẽ một vòng tròn nhỏ báo hiệu đầu ngón tay
                     preview_color = (255, 255, 255) if draw_color == (0, 0, 0) else draw_color
                     cv2.circle(frame, (index_x, index_y), brush_thickness, preview_color, cv2.FILLED)
             
